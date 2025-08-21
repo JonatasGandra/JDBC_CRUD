@@ -5,8 +5,10 @@ public class Categoria {
     private String nome;
     private boolean ativo;
 
-    // Construtores
-    public Categoria() {}
+    public Categoria(String nome, boolean ativo) {
+        this.nome = nome;
+        this.ativo = ativo;
+    }
 
     public Categoria(int id, String nome, boolean ativo) {
         this.id = id;
@@ -14,12 +16,7 @@ public class Categoria {
         this.ativo = ativo;
     }
 
-    public Categoria(String nome, boolean ativo) {
-        this.nome = nome;
-        this.ativo = ativo;
-    }
-
-    // Getters e Setters
+    // Getters e setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -31,6 +28,6 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "Categoria: \n id = " + id + ",\n nome = " + nome + ",\n ativo = " + ativo ;
+        return id + " - " + nome + " | Ativo: " + ativo;
     }
 }

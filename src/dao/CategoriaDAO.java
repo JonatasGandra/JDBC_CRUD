@@ -1,9 +1,8 @@
 package dao;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import model.Categoria;
+import java.sql.*;
+import java.util.*;
 
 public class CategoriaDAO {
     private Connection conn;
@@ -13,21 +12,21 @@ public class CategoriaDAO {
     }
 
     // CREATE
-    public void inserir(Categoria categoria) throws SQLException {
-        String sql = "INSERT INTO Categorias (nome, ativo) VALUES (?, ?)";
+    public void inserir(Categoria c) throws SQLException {
+        String sql = "INSERT INTO categoria (nome, ativo) VALUES (?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, categoria.getNome());
-            stmt.setBoolean(2, categoria.isAtivo());
+            stmt.setString(1, c.getNome());
+            stmt.setBoolean(2, c.isAtivo());
             stmt.executeUpdate();
         }
     }
 
-    // READ (buscar todos)
+    // READ
     public List<Categoria> listar() throws SQLException {
         List<Categoria> lista = new ArrayList<>();
-        String sql = "SELECT * FROM Categorias";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        String sql = "SELECT * FROM categoria";
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Categoria c = new Categoria(
                     rs.getInt("id"),
@@ -41,19 +40,19 @@ public class CategoriaDAO {
     }
 
     // UPDATE
-    public void atualizar(Categoria categoria) throws SQLException {
-        String sql = "UPDATE Categorias SET nome=?, ativo=? WHERE id=?";
+    public void atualizar(Categoria c) throws SQLException {
+        String sql = "UPDATE categoria SET nome=?, ativo=? WHERE id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, categoria.getNome());
-            stmt.setBoolean(2, categoria.isAtivo());
-            stmt.setInt(3, categoria.getId());
+            stmt.setString(1, c.getNome());
+            stmt.setBoolean(2, c.isAtivo());
+            stmt.setInt(3, c.getId());
             stmt.executeUpdate();
         }
     }
 
     // DELETE
     public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM Categorias WHERE id=?";
+        String sql = "DELETE FROM categoria WHERE id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
